@@ -1,11 +1,14 @@
 from rest_framework import serializers
 
-from .models import TaskModel
+from .models import JobModel
 
-class TaskSerializer(serializers.ModelSerializer):
+class JobSerializer(serializers.ModelSerializer):
     """
     Serializer to handle the task instances
     """
     class Meta:
-        model = TaskModel
+        model = JobModel
         fields = "__all__"
+
+# class ResponseSerializer(serializer.Serializer):
+    # 

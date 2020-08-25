@@ -1,12 +1,14 @@
 from django.db import models
+from core.utils.base_model import BaseModel
 
-class Customer(models.Model):
+
+class Customer(BaseModel):
     """Model to handle customer data"""
 
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     address = models.CharField(max_length=200)
-    contact_number = models.PhoneNumberField()
+    email = models.EmailField(max_length=254)
     age = models.IntegerField()
     company = models.CharField(max_length=50)
     
