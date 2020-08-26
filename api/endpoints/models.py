@@ -15,3 +15,8 @@ class Customer(BaseModel):
     def __str__(self):
         return f"{self.first_name} {self.last_name} from {self.company}"
 
+
+class FileModel(BaseModel):
+    """Model to handle uploaded files"""
+    
+    _file = models.FileField("User uploaded file", upload_to="uploads/%Y/%m/%d/")

@@ -1,5 +1,6 @@
 import datetime
 from datetime import datetime as dt
+from datetime import timezone, timedelta
 from typing import Optional
 
 def date_to_datetime(date_str: Optional[str]=None):
@@ -14,6 +15,7 @@ def date_to_datetime(date_str: Optional[str]=None):
         year=day.year, 
         month=day.month,
         day=day.day,
+        tzinfo=timezone(timedelta(minutes=0))
     )
     return timestamp
     

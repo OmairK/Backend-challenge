@@ -51,8 +51,7 @@ class CustomFileUploadHandler(FileUploadHandler):
         # change the job status to completed for a sucessful job
 
         job = JobModel.get(job_id=self.request.GET("job_id"))
-        job.job_status == JobModel.COMPLETED
-        job.save()
+        job.delete()
         self.file.seek(0)
         self.file.size = file_size
         return self.file
