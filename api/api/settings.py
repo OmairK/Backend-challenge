@@ -25,7 +25,7 @@ SECRET_KEY = "ti7+qldvo8j#(-(&5mcs4*vk(r)e0x-i__6pe1mky61&x+vm8x"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -82,9 +82,12 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": os.environ.get("POSTGRES_DB", "atlan_task"),
-        "USER": os.environ.get("POSTGRES_USER", "postgres"),
-        "PASSWORD": os.environ.get("POSTGRES_PASSWORD", "postgres"),
-        "HOST": "db",
+        # "USER": os.environ.get("POSTGRES_USER", "postgres"),
+        "USER": os.environ.get("POSTGRES_USER", "atlan"),
+        # "PASSWORD": os.environ.get("POSTGRES_PASSWORD", "postgres"),
+        "PASSWORD": os.environ.get("POSTGRES_PASSWORD", "test"),
+        # "HOST": "db",
+        "HOST": "127.0.0.1",
         "PORT": 5432,
     }
 }
@@ -146,7 +149,5 @@ CELERY_TASK_SERIALIZER = "json"
 
 
 # Jobs Configuration
-PAUSE_PULSE = (
-    30  # Seconds that the job will wait to send a pulse to checkup on a Paused job
-)
+PAUSE_PULSE = 30  # Seconds that the job will wait to send a pulse to checkup on a Paused job
 PULSE_MAX_TRIES = 2
