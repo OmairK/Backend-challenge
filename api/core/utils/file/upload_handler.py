@@ -10,7 +10,7 @@ from core.models import JobModel
 class CustomFileUploadHandler(FileUploadHandler):
     """
     Custom file upload handler which handles the file upload as 
-    job and could be stopped midway if the job is revoked.
+    job and can be stopped midway if the job is revoked.
     Acts mainly as a TemporaryFileUpload with additional logic.
     """
 
@@ -20,16 +20,21 @@ class CustomFileUploadHandler(FileUploadHandler):
         self.file = TemporaryUploadedFile(
             self.file_name, self.content_type, 0, self.charset, self.content_type_extra
         )
+        job = JobModel.objects.get(job_id=self.request.GET["job_id"])
+        job.job_status = JobModel.STARTED
+        job.save()
 
     def receive_data_chunk(self, raw_data, start):
         # Depending on the job id the task handling will stop
         # midway if the status is 'REVOKED'
-        job = JobModel.get(job_id=self.request.GET("job_id"))
-        if job.job_status == JobModel.CREATED:
-            pass
-        elif job.job_status == JobModel.STARTED:
-            pass
-        elif job.job_status == JobModel.PAUSED:
+        time.sleep(0.5)
+        try:
+            job = JobModel.objects.get(job_id=self.request.GET["job_id"])
+            print(job)
+        except JobModel.DoesNotExist:
+            raise StopUpload(connection_reset=True)
+
+        if job.job_status == JobModel.PAUSED:
             pulse_try = 0
             while (
                 job.job_status == JobModel.PAUSED
@@ -37,20 +42,20 @@ class CustomFileUploadHandler(FileUploadHandler):
             ):
                 pulse_try += 1
                 time.sleep(settings.PAUSE_PULSE)
+                job = JobModel.objects.get(job_id=self.request.GET["job_id"])
             if pulse_try == settings.PULSE_MAX_TRIES:
-                job.task_status = JobModel.REVOKED
+                job.delete()
                 job.save()
-
                 raise StopUpload(connection_reset=True)
         elif job.job_status == JobModel.REVOKED:
+            job.delete()
             raise StopUpload(connection_reset=True)
 
         self.file.write(raw_data)
 
     def file_complete(self, file_size):
-        # change the job status to completed for a sucessful job
-
-        job = JobModel.get(job_id=self.request.GET("job_id"))
+        # delete the job after completion
+        job = JobModel.objects.get(job_id=self.request.GET["job_id"])
         job.delete()
         self.file.seek(0)
         self.file.size = file_size

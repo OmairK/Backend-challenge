@@ -6,19 +6,30 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('endpoints', '0002_auto_20200826_0120'),
+        ("endpoints", "0002_auto_20200826_0120"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='FileModel',
+            name="FileModel",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(null=True)),
-                ('_file', models.FileField(upload_to='uploads/%Y/%m/%d/', verbose_name='User uploaded file')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(null=True)),
+                (
+                    "_file",
+                    models.FileField(
+                        upload_to="uploads/%Y/%m/%d/", verbose_name="User uploaded file"
+                    ),
+                ),
             ],
-            options={
-                'abstract': False,
-            },
+            options={"abstract": False,},
         ),
     ]

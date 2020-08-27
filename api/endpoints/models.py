@@ -11,12 +11,14 @@ class Customer(BaseModel):
     email = models.EmailField(max_length=254)
     age = models.IntegerField()
     company = models.CharField(max_length=50)
-    
+
     def __str__(self):
         return f"{self.first_name} {self.last_name} from {self.company}"
 
 
 class FileModel(BaseModel):
     """Model to handle uploaded files"""
-    
-    _file = models.FileField("User uploaded file", upload_to="uploads/%Y/%m/%d/")
+
+    _file = models.FileField(
+        "User uploaded file", upload_to="uploads/%Y/%m/%d/", null=False
+    )

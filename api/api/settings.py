@@ -82,9 +82,9 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": os.environ.get("POSTGRES_DB", "atlan_task"),
-        "USER": os.environ.get("POSTGRES_USER", "atlan"),
-        "PASSWORD": os.environ.get("POSTGRES_PASSWORD", "test"),
-        "HOST": "127.0.0.1",
+        "USER": os.environ.get("POSTGRES_USER", "postgres"),
+        "PASSWORD": os.environ.get("POSTGRES_PASSWORD", "postgres"),
+        "HOST": "db",
         "PORT": 5432,
     }
 }
@@ -126,6 +126,7 @@ STATIC_URL = "/static/"
 # File Upload Settings
 FILE_UPLOAD_MAX_MEMORY_SIZE = 209715200  # 200 MB max size
 FILE_UPLOAD_HANDLERS = ["core.utils.file.upload_handler.CustomFileUploadHandler"]
+DATA_UPLOAD_MAX_MEMORY_SIZE = 20971520  # 20 MB max size
 
 
 # Rest framework settings
@@ -137,8 +138,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 
 # Celery configuration
-CELERY_BROKER_URL = "redis://localhost:6379"
-CELERY_RESULT_BACKEND = "redis://localhost:6379"
+CELERY_BROKER_URL = "redis://redis:6379"
+CELERY_RESULT_BACKEND = "redis://redis:6379"
 CELERY_ACCEPT_CONTENT = ["application/json"]
 CELERY_RESULT_SERIALIZER = "json"
 CELERY_TASK_SERIALIZER = "json"

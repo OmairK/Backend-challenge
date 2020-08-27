@@ -1,13 +1,10 @@
 from django.urls import path
 
-from endpoints.views import (
-    file_export_view, file_upload_view,
-    generate_job_id, task_status
-)
+from .views import generate_job_id, FileUploadView, FileExportView, JobStatusView
 
 urlpatterns = [
-    path("export/", file_export_view, name="file_export"),
-    path("task-status/<str:job_id>/", task_status, name="task_status"),
+    path("export/", FileExportView.as_view(), name="file_export"),
+    path("job-status/<str:job_id>/", JobStatusView.as_view(), name="job_status"),
     path("new-job/", generate_job_id, name="new_job"),
-    path("upload/", file_upload_view, name="resume"),
+    path("upload/", FileUploadView.as_view(), name="upload"),
 ]

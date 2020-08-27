@@ -8,21 +8,40 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='JobModel',
+            name="JobModel",
             fields=[
-                ('created_at', models.DateTimeField(auto_now=True)),
-                ('job_id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('task_id', models.UUIDField()),
-                ('job_status', models.CharField(choices=[('E', 'CREATED'), ('S', 'STARTED'), ('P', 'PAUSED'), ('R', 'RESUMED'), ('Z', 'REVOKED'), ('C', 'COMPLETED')], default='E', max_length=1)),
-                ('celery_binded', models.BooleanField(default=False)),
+                ("created_at", models.DateTimeField(auto_now=True)),
+                (
+                    "job_id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("task_id", models.UUIDField()),
+                (
+                    "job_status",
+                    models.CharField(
+                        choices=[
+                            ("E", "CREATED"),
+                            ("S", "STARTED"),
+                            ("P", "PAUSED"),
+                            ("R", "RESUMED"),
+                            ("Z", "REVOKED"),
+                            ("C", "COMPLETED"),
+                        ],
+                        default="E",
+                        max_length=1,
+                    ),
+                ),
+                ("celery_binded", models.BooleanField(default=False)),
             ],
-            options={
-                'abstract': False,
-            },
+            options={"abstract": False,},
         ),
     ]

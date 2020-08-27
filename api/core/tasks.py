@@ -12,7 +12,6 @@ from core.models import JobModel
 from api import celery_app
 
 
-
 @celery_app.task(bind=True)
 def query_to_csv(self, job_id: str, fieldnames: List[str], query):
     """
@@ -46,17 +45,14 @@ def query_to_csv(self, job_id: str, fieldnames: List[str], query):
             ):
                 pulse_try += 1
                 time.sleep(settings.PAUSE_PULSE)
-
+                job = JobModel.objects.get(job_id=job_id)
             if pulse_try == settings.PULSE_MAX_TRIES:
                 job.task_status = JobModel.REVOKED
                 job.save()
             elif job.job_status == JobModel.RESUMED:
                 csvwriter.writerow(row)
-    
 
     csvfile.close()
     job.job_status = JobModel.COMPLETED
     job.save()
-    return "Job Completed" 
-
-
+    return "Job Completed"

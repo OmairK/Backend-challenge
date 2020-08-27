@@ -17,3 +17,5 @@ RUN mkdir /code/data
 RUN mkdir /code/exports
 
 COPY . /code/
+
+CMD [ "redis-server" ]
