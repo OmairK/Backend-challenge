@@ -156,7 +156,6 @@ class FileUploadView(APIView):
             return Response(status=200, data={"error_message": "Job revoked"})
 
 
-# @api_view(http_method_names=["GET"])
 class FileExportView(APIView):
     authentication_classes = []
     def get(self, request, format=None):
@@ -167,7 +166,7 @@ class FileExportView(APIView):
             import requests
             url = "http://localhost:8000/api/v1/export/"
             querystring = {"date_gte":"2011-02-02","date_lte":"2025-02-02"}
-            response = requests.request("GET", url, headers=headers, params=querystring) 
+            response = requests.request("GET", url, params=querystring) 
         """
         try:
 
@@ -185,7 +184,7 @@ class FileExportView(APIView):
         ]
         query = Customer.objects.filter(created_at__range=(date_gte, date_lte)).values(
             *field_names
-        )[:100]
+        )
         qs = CustomerSerializer(query, many=True)
         job = JobModel.objects.create()
         celery_task = query_to_csv.delay(

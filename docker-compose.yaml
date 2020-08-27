@@ -10,7 +10,7 @@ services:
     
     web:
         build: ./api
-        command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+        command: bash -c "python manage.py migrate && python manage.py loaddata ./fixtures/customer.json && python manage.py runserver 0.0.0.0:8000"
         ports: 
             - "8000:8000"
         depends_on: 
@@ -24,6 +24,6 @@ services:
     
     celery:
         build: ./api
-        command: celery worker -A api.celery -c 4 -l DEBUG
+        command: celery worker -A api.celery -c 4 -l INFO
         depends_on: 
             - web
