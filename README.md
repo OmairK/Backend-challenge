@@ -75,3 +75,4 @@ $ python manage.py loaddata
 $ git clone https://github.com/OmairK/Backend-challenge
 $ docker-compose up --build
 ```
+NOTE: docker-compose might take some time as the loaddata command is loading 1,00,000 rows into the database.
